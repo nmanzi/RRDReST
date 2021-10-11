@@ -1,6 +1,6 @@
 from fastapi import FastAPI, HTTPException
 
-from backend.RRD_parse import RRD_parser
+from rrdrest.backend.RRD_parse import RRD_parser
 
 from typing import Optional
 
