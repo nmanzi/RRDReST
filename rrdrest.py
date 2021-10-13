@@ -1,16 +1,29 @@
 from fastapi import FastAPI, HTTPException
-
 from backend.RRD_parse import RRD_parser
-
 from typing import Optional
-
 import os
+import json
+
+
 rrd_rest = FastAPI(
     title="RRDReST",
     description="Makes RRD files API-able",
     version="0.2",
 )
 
+def empty_response(status: str):
+    response = {
+            "meta": {
+                "start": None,
+                "step": None,
+                "end": None,
+                "rows": None,
+                "data_sources": [],
+                "status": status
+            },
+            "data": [],
+        }
+    return response
 
 @rrd_rest.get(
     "/",
@@ -37,4 +50,5 @@ async def get_rrd(
             return r
         except Exception as e:
             HTTPException(status_code=500, detail=f"{e}")
-    raise HTTPException(status_code=404, detail="RRD not found")
+    # raise HTTPException(status_code=404, detail="RRD not found")
+    return empty_response(status="RRD file not found.")
